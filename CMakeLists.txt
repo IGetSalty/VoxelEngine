@@ -23,6 +23,7 @@ add_executable(
     include/world/Chunk.h
     include/world/World.h
     include/util/Timer.h
+    src/core/Window.cpp
 )
 
 target_include_directories(VoxelEngine PRIVATE include)

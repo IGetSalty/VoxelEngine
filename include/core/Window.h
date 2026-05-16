@@ -1,34 +1,29 @@
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <iostream>
 
-struct GLFWWindowDeleter {
-    void operator() (GLFWwindow* window) const {
-        if (window) {
-            glfwDestroyWindow(window);
-        }
-    }
-};
-
 class Window {
-    //CREATE WINDOW
+ 
+    public:
+        Window(int width, int height, const std::string& title);
+        
+        void update();
 
-    //The CreateWindow needs to create a window object via a constructor
-    //std::unique_ptr<GLFWwindow,GLFWWindowDeleter> window(glfwCreateWindow(800, 600, 
-    //"Triangle", nullptr, nullptr));
-    /*
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    */
+        bool shouldClose() const;
 
-    //MAKE WINDOW CURRENT CONTEXT
-    /*
+        GLFWwindow* getNativeWindow() const;
 
-    void printDetails(std::unique_ptr<Weapon>& a) {
-        std::cout << a -> Name << " " << a -> Kind << " " << a -> Length << " " << a -> Danger << std::endl;
-    }
-    */
+        int getHeight() const;
+        int getWidth() const;
+
+    private:
+        int m_Width;
+        int m_Height;
+        std::string m_Title;
+        GLFWwindow* m_Window;
+
+        void init();
 
 };
