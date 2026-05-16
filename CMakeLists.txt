@@ -9,6 +9,20 @@ add_executable(
     VoxelEngine
     src/main.cpp
     src/glad.c
+    include/core/Application.h
+    include/core/Input.h
+    include/core/Window.h
+    include/graphics/VertexBuffer.h
+    include/graphics/Shader.h
+    include/graphics/IndexBuffer.h
+    include/graphics/VertexArray.h
+    include/graphics/Renderer.h
+    include/graphics/Texture.h
+    include/math/Camera.h
+    include/world/Block.h
+    include/world/Chunk.h
+    include/world/World.h
+    include/util/Timer.h
 )
 
 target_include_directories(VoxelEngine PRIVATE include)
