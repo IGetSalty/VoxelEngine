@@ -24,6 +24,8 @@ add_executable(
     include/world/World.h
     include/util/Timer.h
     src/core/Window.cpp
+    src/graphics/Shader.cpp
+    src/graphics/VertexBuffer.cpp
 )
 
 target_include_directories(VoxelEngine PRIVATE include)

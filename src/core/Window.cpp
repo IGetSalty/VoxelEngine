@@ -31,10 +31,6 @@ int Window::getHeight() const {
 }
 
 void Window::init() {
-    if (!glfwInit) {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
-        exit(EXIT_FAILURE);
-    }
 
     //Configure Window
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,4);
