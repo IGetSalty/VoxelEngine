@@ -21,3 +21,7 @@ void VertexArray::unbind() const
 {
     glBindVertexArray(0);
 }
+
+unsigned int VertexArray::getRendererID() const {
+    return m_RendererID;
+}

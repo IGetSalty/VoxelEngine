@@ -26,6 +26,7 @@ add_executable(
     src/core/Window.cpp
     src/graphics/Shader.cpp
     src/graphics/VertexBuffer.cpp
+    src/graphics/VertexArray.cpp
 )
 
 target_include_directories(VoxelEngine PRIVATE include)

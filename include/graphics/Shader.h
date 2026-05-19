@@ -1,7 +1,16 @@
+#pragma once
+#include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
+class VertexShader {
+    public:
+        const char* CreateShaderSource(char type);
 
-//Vertex Shader takes in Vertex Data
+        //I need to build vertex shader and fragment shader
 
-//Geometry Shader takes in what Vertex Shader spits out
+        unsigned int BuildShader(unsigned int shader, const char* shaderSource, char type);
 
-//Fragmenet Shader takes what rasterization spits out
+        unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);     
+
+};

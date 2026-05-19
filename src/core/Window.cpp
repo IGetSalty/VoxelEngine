@@ -8,9 +8,7 @@ Window::Window(int width, int height, const std::string& title)
 }
 
 void Window::update() {
-    glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glfwSwapBuffers(m_Window);
+    
     glfwPollEvents();
 }
 
