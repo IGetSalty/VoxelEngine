@@ -6,9 +6,13 @@ const char* VertexShader::CreateShaderSource(char type) {
             #version 460 core
 
             layout (location = 0) in vec3 aPos;
+            layout (location = 1) in vec3 aColor;
+
+            out vec3 vertexColor;
 
             void main()
             {
+                vertexColor = aColor;
                 gl_Position = vec4(aPos, 1.0);
             }
         )";
@@ -17,11 +21,12 @@ const char* VertexShader::CreateShaderSource(char type) {
         return R"(
             #version 460 core
 
+            in vec3 vertexColor;
             out vec4 FragColor;
 
             void main()
             {
-                FragColor = vec4(0.2, 0.8, 0.3, 1.0);
+                FragColor = vec4(vertexColor, 1.0);
             }
         )";
     }
