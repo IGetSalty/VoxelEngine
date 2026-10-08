@@ -9,42 +9,42 @@
 
 //Temp Vertex Data to get shaders working
 static const GLfloat vertices[] = {
-    -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-    -1.0f,-1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f, // triangle 1 : end
-    1.0f, 1.0f,-1.0f, // triangle 2 : begin
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f, // triangle 2 : end
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f
+    -0.5f,-0.5f,-0.5f, // triangle 1 : begin
+    -0.5f,-0.5f, 0.5f,
+    -0.5f, 0.5f, 0.5f, // triangle 1 : end
+    0.5f, 0.5f,-0.5f, // triangle 2 : begin
+    -0.5f,-0.5f,-0.5f,
+    -0.5f, 0.5f,-0.5f, // triangle 2 : end
+    0.5f,-0.5f, 0.5f,
+    -0.5f,-0.5f,-0.5f,
+    0.5f,-0.5f,-0.5f,
+    0.5f, 0.5f,-0.5f,
+    0.5f,-0.5f,-0.5f,
+    -0.5f,-0.5f,-0.5f,
+    -0.5f,-0.5f,-0.5f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f,-0.5f,
+    0.5f,-0.5f, 0.5f,
+    -0.5f,-0.5f, 0.5f,
+    -0.5f,-0.5f,-0.5f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f,-0.5f, 0.5f,
+    0.5f,-0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f,-0.5f,-0.5f,
+    0.5f, 0.5f,-0.5f,
+    0.5f,-0.5f,-0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f,-0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f,-0.5f,
+    -0.5f, 0.5f,-0.5f,
+    0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f,-0.5f,
+    -0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f, 0.5f,
+    0.5f,-0.5f, 0.5f
 };
 
 static const GLfloat colours[] = {
@@ -108,44 +108,61 @@ int main() {
     
     unsigned int shaderProgram = shader.CreateShaderProgram(vertexShader, fragmentShader);
 
-    VertexArray vao;
-    vao.bind();
+VertexArray vao;
+vao.bind();
 
-    VertexBuffer vbo(vertices, sizeof(vertices));
-    
-    GLuint colourBuffer;
-    glGenBuffers(1, &colourBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colours), colours, GL_STATIC_DRAW);
+VertexBuffer vbo(vertices, sizeof(vertices));
 
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
+// POSITION
+glVertexAttribPointer(
+    0,
+    3,
+    GL_FLOAT,
+    GL_FALSE,
+    3 * sizeof(float),
+    (void*)0
+);
+glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
+// COLOUR
+GLuint colourBuffer;
+glGenBuffers(1, &colourBuffer);
+glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+glBufferData(
+    GL_ARRAY_BUFFER,
+    sizeof(colours),
+    colours,
+    GL_STATIC_DRAW
+);
 
-    vao.unbind();
+glVertexAttribPointer(
+    1,
+    3,
+    GL_FLOAT,
+    GL_FALSE,
+    3 * sizeof(float),
+    (void*)0
+);
+glEnableVertexAttribArray(1);
 
-    glEnable(GL_DEPTH_TEST);
+vao.unbind();
 
-    //INPUT
+glEnable(GL_DEPTH_TEST);
 
-    //UPDATE
-    while (!gameWindow.shouldClose()) {
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+while (!gameWindow.shouldClose())
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glUseProgram(shaderProgram);
-        glBindVertexArray(vao.getRendererID());
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glUseProgram(shaderProgram);
 
-        glfwSwapBuffers(gameWindow.getNativeWindow());
-        glfwPollEvents();
-        
-        gameWindow.update();
-    }
+    glBindVertexArray(vao.getRendererID());
 
-    //RENDER
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
+    glfwSwapBuffers(gameWindow.getNativeWindow());
+    glfwPollEvents();
+
+    gameWindow.update();
+}
 }
