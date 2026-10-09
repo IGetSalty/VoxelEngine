@@ -160,9 +160,6 @@ static const GLfloat colours[] = {
 };
 
 int main() {
-    //create shaders
-
-
 
     if (!glfwInit()) {
         std::cerr << "Failed to init GLFW\n";
@@ -194,39 +191,58 @@ int main() {
     //stop recording and then we can use the vao to tell OpenGL to do what we told it to do when we 
     //vao.getRendererID() and glBindVertexArray(vao.getRendererID()) and then OpenGL will do what we told 
     //it to do.
+
+    //Generate and bind the VAO
     VertexArray vao;
-    vao.bind();
+    vao.bind(); // Everything below this will be recorded
 
-    VertexBuffer vbo(vertices, sizeof(vertices));
+    //Generate the VBO and load it with buffer data. NOTICE that the first argument of 
+    //glVertexAttribPointer is 0 which corresponds to the layout(location = 0) in the 
+    //vertex shader and layout(location = 1) in the fragment shader. This is how OpenGL 
+    //knows which attribute to use for which data.
 
-    // POSITION
+    //POSITION Buffer Object
+    VertexBuffer vbo;
+    vbo.bind();
+    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
 
-    // COLOUR
-    GLuint colourBuffer;
-    glGenBuffers(1, &colourBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+    //COLOUR Buffer Object
+    VertexBuffer cbo;
+    cbo.bind();
     glBufferData(GL_ARRAY_BUFFER,sizeof(colours),colours,GL_STATIC_DRAW);
-
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(1);
 
-    vao.unbind();
+    
+    vao.unbind(); // Stop recording
 
+    //Something something checks whether the fragment/vertex is behind others and if
+    //so discards it. [LEARN LATER]
     glEnable(GL_DEPTH_TEST);
 
     while (!gameWindow.shouldClose())
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+
+        //Does exactly what it says, clears the buffers at the start of each frame.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //Remember when we created that shader program?
         glUseProgram(shaderProgram);
 
+        //Activates the earlier "recipe" we made and tells OpenGL to use it for the next 
+        //draw call.
         glBindVertexArray(vao.getRendererID());
 
+        //Tells OpenGL to draw the primitive type we specified earlier (GL_TRIANGLES) here.
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        //Implements double buffering by swapping front and back buffers. The front buffer 
+        //is what is currently being displayed on the screen, while the back buffer is where 
+        //the next frame is being drawn. Once the drawing is complete, the buffers are swapped 
+        //to display the new frame.
         glfwSwapBuffers(gameWindow.getNativeWindow());
         glfwPollEvents();
 
