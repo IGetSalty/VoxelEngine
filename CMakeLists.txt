@@ -27,6 +27,7 @@ add_executable(
     src/graphics/Shader.cpp
     src/graphics/VertexBuffer.cpp
     src/graphics/VertexArray.cpp
+    src/math/Camera.cpp
 )
 
 target_include_directories(VoxelEngine PRIVATE include)

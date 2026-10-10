@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "core/Window.h"
+#include "math/Camera.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Shader.h"
@@ -163,15 +164,7 @@ static const GLfloat colours[] = {
 };
 
 //Setting Camera positioning using glm and setting cameraPos, Target, and which way is up. Then combining into Mat4.
-glm::vec3 cameraPos = glm::vec3(2.0f,2.0f,2.0f), cameraTarget = glm::vec3(0.0f,0.0f,0.0f), cameraUp = glm::vec3(0.0f,1.0f,0.0f);;
-glm::mat4 view = glm::lookAt(cameraPos, cameraTarget, cameraUp);
-
-//Creating projection matrix
-float fov = glm::radians(45.0f);
-float aspectRatio = 1200.0f / 800.0f;
-float nearPlane = 0.1f, farPlane = 100.0f;
-
-glm::mat4 projection = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
+Camera buddy;
 
 int main() {
 
@@ -232,9 +225,12 @@ int main() {
     //CAMERA
     GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
     GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
-    glUseProgram(shaderProgram);
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+
+    glUseProgram(shaderProgram); //Why does this need to go here?
+    
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraView));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraProjection));
 
     
     vao.unbind(); // Stop recording
@@ -251,7 +247,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //Remember when we created that shader program?
-        glUseProgram(shaderProgram);
+        //glUseProgram(shaderProgram); //Does this need to also go here? Works without for now.
 
         //Activates the earlier "recipe" we made and tells OpenGL to use it for the next 
         //draw call.
