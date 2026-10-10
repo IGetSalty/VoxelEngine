@@ -1,9 +1,11 @@
 #include "graphics/Shader.h"
 
-const char* VertexShader::CreateShaderSource(char type) {
+const char* Shader::CreateShaderSource(char type) {
     if (type == 'v') {
         return R"(
             #version 460 core
+
+            uniform mat4 view, projection;
 
             layout (location = 0) in vec3 aPos;
             layout (location = 1) in vec3 aColor;
@@ -13,7 +15,7 @@ const char* VertexShader::CreateShaderSource(char type) {
             void main()
             {
                 vertexColor = aColor;
-                gl_Position = vec4(aPos, 1.0);
+                gl_Position = projection * view * vec4(aPos, 1.0);
             }
         )";
     }
@@ -35,7 +37,7 @@ const char* VertexShader::CreateShaderSource(char type) {
         return nullptr;
     }
 }
-unsigned int VertexShader::BuildShader(unsigned int shader, const char* shaderSource, char type) {
+unsigned int Shader::BuildShader(unsigned int shader, const char* shaderSource, char type) {
 
             if (type == 'v') {
                 shader = glCreateShader(GL_VERTEX_SHADER);
@@ -65,7 +67,7 @@ unsigned int VertexShader::BuildShader(unsigned int shader, const char* shaderSo
             return shader;
 }
 
-unsigned int VertexShader::CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader) {
+unsigned int Shader::CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader) {
             unsigned int shaderProgram = glCreateProgram();
             int success;
             char infoLog[512];

@@ -1,5 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "core/Window.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/VertexArray.h"
@@ -159,6 +162,17 @@ static const GLfloat colours[] = {
     0.80f, 0.60f, 0.50f
 };
 
+//Setting Camera positioning using glm and setting cameraPos, Target, and which way is up. Then combining into Mat4.
+glm::vec3 cameraPos = glm::vec3(2.0f,2.0f,2.0f), cameraTarget = glm::vec3(0.0f,0.0f,0.0f), cameraUp = glm::vec3(0.0f,1.0f,0.0f);;
+glm::mat4 view = glm::lookAt(cameraPos, cameraTarget, cameraUp);
+
+//Creating projection matrix
+float fov = glm::radians(45.0f);
+float aspectRatio = 1200.0f / 800.0f;
+float nearPlane = 0.1f, farPlane = 100.0f;
+
+glm::mat4 projection = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
+
 int main() {
 
     if (!glfwInit()) {
@@ -168,7 +182,7 @@ int main() {
 
     Window gameWindow(1200,800,"Test Window");
 
-    VertexShader shader;
+    Shader shader;
     //Creating Shader Program: In order to create shader program, we need to first create the vertex
     //and fragment shader sources and shaders, and then create the program via CreateShaderProgram.
     //The Shader sources include the position and colour attributes which are then passed as whole 
@@ -214,6 +228,13 @@ int main() {
     glBufferData(GL_ARRAY_BUFFER,sizeof(colours),colours,GL_STATIC_DRAW);
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(1);
+
+    //CAMERA
+    GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
+    GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+    glUseProgram(shaderProgram);
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
     
     vao.unbind(); // Stop recording
