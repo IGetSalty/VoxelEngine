@@ -31,7 +31,14 @@ glm::mat4 Camera::updateCameraPosition(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         yaw += moveSpeed;
 
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        radius -= moveSpeed;
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        radius += moveSpeed;
+
     pitch = glm::clamp(pitch, -1.4f, 1.4f);
+
+    if (radius < 2.0f) radius = 2.0f;
 
     cameraPos.x = cameraTarget.x+radius*std::cos(yaw)* std::cos(pitch);
     cameraPos.y = cameraTarget.y+radius*std::sin(pitch);
