@@ -23,11 +23,13 @@ add_executable(
     include/world/Chunk.h
     include/world/World.h
     include/util/Timer.h
+    include/util/FileHandling.h
     src/core/Window.cpp
     src/graphics/Shader.cpp
     src/graphics/VertexBuffer.cpp
     src/graphics/VertexArray.cpp
     src/math/Camera.cpp
+
 )
 
 target_include_directories(VoxelEngine PRIVATE include)

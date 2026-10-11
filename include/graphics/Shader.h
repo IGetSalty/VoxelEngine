@@ -5,7 +5,6 @@
 
 class Shader {
     public:
-        const char* CreateShaderSource(char type);
 
         unsigned int BuildShader(unsigned int shader, const char* shaderSource, char type);
 

@@ -8,8 +8,13 @@
 #include "graphics/VertexBuffer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Shader.h"
+#include "util/FileHandling.h"
 #include <memory>
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
+
 
 //Temp Vertex Data to get shaders working
 static const GLfloat vertices[] = {
@@ -163,6 +168,8 @@ static const GLfloat colours[] = {
     0.80f, 0.60f, 0.50f
 };
 
+ 
+
 //Setting Camera positioning using glm and setting cameraPos, Target, and which way is up. Then combining into Mat4.
 Camera buddy;
 
@@ -182,15 +189,18 @@ int main() {
     //arguments into the BuildShader function which then compiles the shaders and returns the shader IDs. 
     //These are then passed into the CreateShaderProgram function which links the shaders into a program 
     //and returns the program ID. 
+    
+    //Reading shader source files into strings and then converting them into a pointer for the BuildShader Function.
+    const std::string vertexShaderSourceString = ReadTextFile("src/graphics/shaders/vertexShader.glsl");
+    const std::string fragmentShaderSourceString = ReadTextFile("src/graphics/shaders/fragmentShader.glsl");
 
-    //So we're not dealing with objects themselves just the IDs of objects so OpenGL knows what to do.
-    const char* vertexShaderSource = shader.CreateShaderSource('v');
-    const char* fragmentShaderSource = shader.CreateShaderSource('f');
+    const char* vertexShaderSource = vertexShaderSourceString.c_str();
+    const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
 
     unsigned int vertexShader = 0, fragmentShader = 0;
-    vertexShader = shader.BuildShader(vertexShader, vertexShaderSource,'v');
-    fragmentShader = shader.BuildShader(fragmentShader, fragmentShaderSource,'f');
-    
+    vertexShader = shader.BuildShader(vertexShader, vertexShaderSource, 'v');
+    fragmentShader = shader.BuildShader(fragmentShader, fragmentShaderSource, 'f');
+
     unsigned int shaderProgram = shader.CreateShaderProgram(vertexShader, fragmentShader);
 
     //Here i am telling OpenGL "Hey listen up i've got shit for you to do" and then OpenGL Will record

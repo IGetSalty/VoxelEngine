@@ -1,42 +1,6 @@
 #include "graphics/Shader.h"
 
-const char* Shader::CreateShaderSource(char type) {
-    if (type == 'v') {
-        return R"(
-            #version 460 core
 
-            uniform mat4 view, projection;
-
-            layout (location = 0) in vec3 aPos;
-            layout (location = 1) in vec3 aColor;
-
-            out vec3 vertexColor;
-
-            void main()
-            {
-                vertexColor = aColor;
-                gl_Position = projection * view * vec4(aPos, 1.0);
-            }
-        )";
-    }
-    else if (type == 'f') {
-        return R"(
-            #version 460 core
-
-            in vec3 vertexColor;
-            out vec4 FragColor;
-
-            void main()
-            {
-                FragColor = vec4(vertexColor, 1.0);
-            }
-        )";
-    }
-    else {
-        std::cout << "invalid shader type use v or f" << std::endl;
-        return nullptr;
-    }
-}
 unsigned int Shader::BuildShader(unsigned int shader, const char* shaderSource, char type) {
 
             if (type == 'v') {
