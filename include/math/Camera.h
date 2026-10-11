@@ -16,15 +16,22 @@ struct Camera
         //GLint viewLoc();
         //GLint projLoc();
         
-
         GLint getRendererID();
         glm::mat4 cameraView;
         glm::mat4 cameraProjection;
+        glm::vec3 cameraPos;
+        glm::vec3 cameraTarget, cameraUp;
 
+        float radius;
+        float pitch;
+        float yaw;
+        float moveSpeed;
+
+        glm::mat4 updateCameraPosition(GLFWwindow *window);
     
     private:
         GLint m_rendererID();
-        glm::vec3 cameraPos, cameraTarget, cameraUp;
+        
         float fov, aspectRatio, nearPlane, farPlane;
 
 

@@ -58,120 +58,49 @@ static const GLfloat vertices[] = {
 
 
 static const GLfloat colours[] = {
-
-    //  1  - Red
-    0.90f, 0.10f, 0.10f,
-
-    //  2  - Green
-    0.10f, 0.90f, 0.10f,
-
-    //  3  - Blue
-    0.10f, 0.10f, 0.90f,
-
-    //  4  - Cyan
-    0.10f, 0.70f, 0.90f,
-
-    //  5  - Pink
-    0.90f, 0.30f, 0.70f,
-
-    //  6  - Yellow
-    0.90f, 0.70f, 0.10f,
-
-    //  7  - Turquoise
-    0.10f, 0.90f, 0.70f,
-
-    //  8  - Brown
-    0.40f, 0.30f, 0.20f,
-
-    //  9  - Dark Blue
-    0.10f, 0.30f, 0.70f,
-
-    // 10  - Lime
-    0.40f, 0.60f, 0.10f,
-
-    // 11  - Purple
-    0.80f, 0.10f, 0.90f,
-
-    // 12  - Pale Pink
-    0.90f, 0.70f, 0.80f,
-
-    // 13  - Yellow-Green
-    0.80f, 0.90f, 0.10f,
-
-    // 14  - Crimson
-    0.70f, 0.20f, 0.30f,
-
-    // 15  - Orange
-    0.90f, 0.50f, 0.30f,
-
-    // 16  - Teal
-    0.10f, 0.50f, 0.40f,
-
-    // 17  - Pale Yellow
-    0.90f, 0.90f, 0.60f,
-
-    // 18  - Dark Teal
-    0.10f, 0.30f, 0.40f,
-
-    // 19  - Bright Blue
-    0.10f, 0.30f, 0.90f,
-
-    // 20  - Dark Purple
-    0.50f, 0.10f, 0.60f,
-
-    // 21  - Bright Cyan
-    0.10f, 0.90f, 0.90f,
-
-    // 22  - Emerald
-    0.10f, 0.80f, 0.40f,
-
-    // 23  - Mauve
-    0.50f, 0.30f, 0.50f,
-
-    // 24  - Lavender
-    0.70f, 0.50f, 0.90f,
-
-    // 25  - Sky Blue
-    0.10f, 0.50f, 0.80f,
-
-    // 26  - Red-Pink
-    0.90f, 0.10f, 0.30f,
-
-    // 27  - Olive
-    0.60f, 0.50f, 0.10f,
-
-    // 28  - Magenta
-    0.90f, 0.10f, 0.50f,
-
-    // 29  - Bright Lime
-    0.50f, 0.80f, 0.10f,
-
-    // 30  - Dark Magenta
-    0.60f, 0.10f, 0.40f,
-
-    // 31  - Dark Orange
-    0.70f, 0.20f, 0.10f,
-
-    // 32  - Orange-Yellow
-    0.90f, 0.50f, 0.10f,
-
-    // 33  - Violet
-    0.60f, 0.30f, 0.90f,
-
-    // 34  - Khaki
-    0.80f, 0.80f, 0.30f,
-
-    // 35  - Hot Pink
-    0.90f, 0.10f, 0.80f,
-
-    // 36  - Peach
-    0.80f, 0.60f, 0.50f
+    0.90f, 0.10f, 0.10f,//  1  - Red
+    0.10f, 0.90f, 0.10f,//  2  - Green
+    0.10f, 0.10f, 0.90f,//  3  - Blue
+    0.10f, 0.70f, 0.90f,//  4  - Cyan
+    0.90f, 0.30f, 0.70f,//  5  - Pink
+    0.90f, 0.70f, 0.10f,//  6  - Yellow
+    0.10f, 0.90f, 0.70f,//  7  - Turquoise
+    0.40f, 0.30f, 0.20f,//  8  - Brown
+    0.10f, 0.30f, 0.70f,//  9  - Dark Blue
+    0.40f, 0.60f, 0.10f,// 10  - Lime
+    0.80f, 0.10f, 0.90f,// 11  - Purple
+    0.90f, 0.70f, 0.80f,// 12  - Pale Pink
+    0.80f, 0.90f, 0.10f,// 13  - Yellow-Green
+    0.70f, 0.20f, 0.30f,// 14  - Crimson
+    0.90f, 0.50f, 0.30f,// 15  - Orange
+    0.10f, 0.50f, 0.40f,// 16  - Teal
+    0.90f, 0.90f, 0.60f,// 17  - Pale Yellow
+    0.10f, 0.30f, 0.40f,// 18  - Dark Teal
+    0.10f, 0.30f, 0.90f,// 19  - Bright Blue
+    0.50f, 0.10f, 0.60f,// 20  - Dark Purple
+    0.10f, 0.90f, 0.90f,// 21  - Bright Cyan
+    0.10f, 0.80f, 0.40f,// 22  - Emerald
+    0.50f, 0.30f, 0.50f,// 23  - Mauve
+    0.70f, 0.50f, 0.90f,// 24  - Lavender
+    0.10f, 0.50f, 0.80f,// 25  - Sky Blue
+    0.90f, 0.10f, 0.30f,// 26  - Red-Pink
+    0.60f, 0.50f, 0.10f,// 27  - Olive
+    0.90f, 0.10f, 0.50f,// 28  - Magenta
+    0.50f, 0.80f, 0.10f,// 29  - Bright Lime
+    0.60f, 0.10f, 0.40f,// 30  - Dark Magenta
+    0.70f, 0.20f, 0.10f,// 31  - Dark Orange
+    0.90f, 0.50f, 0.10f,// 32  - Orange-Yellow
+    0.60f, 0.30f, 0.90f,// 33  - Violet
+    0.80f, 0.80f, 0.30f,// 34  - Khaki    
+    0.90f, 0.10f, 0.80f,// 35  - Hot Pink
+    0.80f, 0.60f, 0.50f // 36  - Peach
 };
 
  
 
 //Setting Camera positioning using glm and setting cameraPos, Target, and which way is up. Then combining into Mat4.
 Camera buddy;
+
 
 int main() {
 
@@ -238,11 +167,8 @@ int main() {
 
 
     glUseProgram(shaderProgram); //Why does this need to go here?
-    
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraView));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraProjection));
 
-    
     vao.unbind(); // Stop recording
 
     //Something something checks whether the fragment/vertex is behind others and if
@@ -259,9 +185,14 @@ int main() {
         //Remember when we created that shader program?
         //glUseProgram(shaderProgram); //Does this need to also go here? Works without for now.
 
-        //Activates the earlier "recipe" we made and tells OpenGL to use it for the next 
-        //draw call.
+        //Activates the earlier "recipe" we made and tells OpenGL to use it for the next draw call.
         glBindVertexArray(vao.getRendererID());
+
+        //Take user input and update camera position orbiting it around the target.
+        buddy.cameraView = buddy.updateCameraPosition(gameWindow.getNativeWindow());
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraView));
+
+        std::cout << "Camera Position: " << buddy.cameraPos.x << ", " << buddy.cameraPos.y << ", " << buddy.cameraPos.z << std::endl;
 
         //Tells OpenGL to draw the primitive type we specified earlier (GL_TRIANGLES) here.
         glDrawArrays(GL_TRIANGLES, 0, 36);
