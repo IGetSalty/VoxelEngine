@@ -9,11 +9,11 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Shader.h"
 #include "util/FileHandling.h"
-#include <memory>
+//#include <memory>
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <sstream>
+//#include <fstream>
+//#include <sstream>
 
 //this is a test for committ.
 
