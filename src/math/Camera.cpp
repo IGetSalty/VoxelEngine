@@ -2,11 +2,11 @@
 #include <cmath>
 
 Camera::Camera() {
-    cameraPos       = glm::vec3(2.0f, 2.0f, 2.0f);
+    cameraPos       = glm::vec3(4.0f, 4.0f, 4.0f);
     cameraTarget    = glm::vec3(0.0f, 0.0f, 0.0f);
     cameraUp        = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    radius      = sqrt(12.0f);
+    radius      = 80; //sqrt(12.0f);
     pitch       = 0.35f;
     yaw         = 0.0f;
     moveSpeed   = 0.025f;
