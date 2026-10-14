@@ -100,37 +100,21 @@ static const GLfloat colours[] = {
     0.80f, 0.60f, 0.50f // 36  - Peach
 };
 
-//Block Blocks[] = {
-//   { glm::vec3(0.0f, 0.0f, 0.0f), glm::mat4(1.0f) },
-//    { glm::vec3(0.0f, 0.0f, 2.0f), glm::mat4(1.0f) },
-//    { glm::vec3(2.0f, 2.0f, 0.0f), glm::mat4(1.0f) },
-//    { glm::vec3(2.0f, 0.0f, 0.0f), glm::mat4(1.0f) }
-//};
-
-
 
 void GenerateBlocks(std::vector<Block>& Blocks) {
-
-
-//Cube
-for (int i = 0; i < 10; ++i) {
-    for (int j = 0; j < 10; ++j) {
-        for (int k = 0; k < 10; ++k) {
-            Blocks.emplace_back(
-                glm::vec3(i * 2.0f, j * 2.0f, k * 2.0f),
-                glm::mat4(1.0f)
-            );
+    for (int i = 0; i < 30; ++i) {
+        for (int j = 0; j < 30; ++j) {
+            for (int k = 0; k < 30; ++k) {
+                Blocks.emplace_back(
+                    glm::vec3(i * 2.0f, j * 2.0f, k * 2.0f),
+                    glm::mat4(1.0f)
+                );
+            }
         }
-    }
-};
+    };
 }
 
 
-
-
-
-//Setting Camera positioning using glm and setting cameraPos, Target, and which way is up. Then combining into Mat4.
-Camera buddy;
 
 
 int main() {
@@ -140,22 +124,24 @@ int main() {
         return -1;
     }
 
-    Window gameWindow(1200,800,"Test Window");
+    //Create Game Window/Camera/Shaders and Create Blocks/Models for Blocks and reserve space
+    Window gameWindow(1200,800,"Test Window"); //GameWindow
+    Camera buddy; 
+    Shader shader; 
 
-    Shader shader;
-    //Creating Shader Program: In order to create shader program, we need to first create the vertex
-    //and fragment shader sources and shaders, and then create the program via CreateShaderProgram.
-    //The Shader sources include the position and colour attributes which are then passed as whole 
-    //arguments into the BuildShader function which then compiles the shaders and returns the shader IDs. 
-    //These are then passed into the CreateShaderProgram function which links the shaders into a program 
-    //and returns the program ID. 
-
-    
     std::vector<Block> Blocks;
-    Blocks.reserve(10*10*10);
+    Blocks.reserve(30*30*30);
     GenerateBlocks(Blocks);
+
+    //Creating model matrix for each block in Blocks
+    for (Block& block : Blocks) {
+        block.model = glm::translate(
+                            glm::mat4(1.0f), 
+                            block.position
+                        );
+    }
     
-    //Reading shader source files into strings and then converting them into a pointer for the BuildShader Function.
+    //Creating Shader Program
     const std::string vertexShaderSourceString = ReadTextFile("src/graphics/shaders/vertexShader.glsl");
     const std::string fragmentShaderSourceString = ReadTextFile("src/graphics/shaders/fragmentShader.glsl");
 
@@ -168,57 +154,40 @@ int main() {
 
     unsigned int shaderProgram = shader.CreateShaderProgram(vertexShader, fragmentShader);
 
-    //Here i am telling OpenGL "Hey listen up i've got shit for you to do" and then OpenGL Will record
-    //what we need it to do and where it can find different stuff until i vao.unbind() which tells it to
-    //stop recording and then we can use the vao to tell OpenGL to do what we told it to do when we 
-    //vao.getRendererID() and glBindVertexArray(vao.getRendererID()) and then OpenGL will do what we told 
-    //it to do.
-
-
-    //Creating model matrix for each block in Blocks
-    for (Block& block : Blocks) {
-        block.model = glm::translate(
-                            glm::mat4(1.0f), 
-                            block.position
-                        );
-    }
-
     //Generate and bind the VAO
     VertexArray vao;
-    vao.bind(); // Everything below this will be recorded
+    vao.bind(); 
 
-    //Generate the VBO and load it with buffer data. NOTICE that the first argument of 
-    //glVertexAttribPointer is 0 which corresponds to the layout(location = 0) in the 
-    //vertex shader and layout(location = 1) in the fragment shader. This is how OpenGL 
-    //knows which attribute to use for which data.
-
-    //POSITION Buffer Object
+    //Creating Buffer objects - Note 0 = Location 0 and 1 = Location 1 in glsl
+    //POSITION 
     VertexBuffer vbo;
     vbo.bind();
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
 
-    //COLOUR Buffer Object
+    //COLOUR 
     VertexBuffer cbo;
     cbo.bind();
     glBufferData(GL_ARRAY_BUFFER,sizeof(colours),colours,GL_STATIC_DRAW);
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(1);
 
+    //Locating Camera Uniforms, telling GPU to use shaderProgram, and setting Camera Projection 
+    //as it does not change
+
     //CAMERA -- Locating each of the uniforms in the shader so the program can use it
-    GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
-    GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
-    GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+    GLint modelLoc  = glGetUniformLocation(shaderProgram, "model");
+    GLint viewLoc   = glGetUniformLocation(shaderProgram, "view");
+    GLint projLoc   = glGetUniformLocation(shaderProgram, "projection");
 
 
     glUseProgram(shaderProgram); //Why does this need to go here?
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraProjection)); //Setting the fov/aspect ratio/near and far (Basically how shit goes from 2D to 3D.)
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraProjection)); 
 
-    vao.unbind(); // Stop recording
+    vao.unbind(); 
 
-    //Something something checks whether the fragment/vertex is behind others and if
-    //so discards it. [LEARN LATER]
+    //[LEARN LATER]
     glEnable(GL_DEPTH_TEST);
 
 
@@ -232,23 +201,21 @@ int main() {
         //Remember when we created that shader program?
         glUseProgram(shaderProgram); //Good practice to call again unless i can be sure it'll persist.
 
+        //Updates Camera Position and refreshes Uniform
         buddy.cameraView = buddy.updateCameraPosition(gameWindow.getNativeWindow());
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(buddy.cameraView)); //View Matrix upload.
 
-        //Activates the earlier "recipe" we made and tells OpenGL to use it for the next draw call.
+        //Activates VAO
         glBindVertexArray(vao.getRendererID());
 
-        //Model Matrix Upload
+        //Block Model Matrix Upload
         for (Block& block : Blocks) { 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(block.model));
             glDrawArrays(GL_TRIANGLES, 0, 36); 
         }
 
 
-        //Implements double buffering by swapping front and back buffers. The front buffer 
-        //is what is currently being displayed on the screen, while the back buffer is where 
-        //the next frame is being drawn. Once the drawing is complete, the buffers are swapped 
-        //to display the new frame.
+        //Implements double buffering (by swapping front and back buffers)
         glfwSwapBuffers(gameWindow.getNativeWindow());
         glfwPollEvents();
 

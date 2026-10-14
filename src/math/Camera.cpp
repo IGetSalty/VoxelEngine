@@ -3,10 +3,10 @@
 
 Camera::Camera() {
     cameraPos       = glm::vec3(4.0f, 4.0f, 4.0f);
-    cameraTarget    = glm::vec3(0.0f, 0.0f, 0.0f);
+    cameraTarget    = glm::vec3(15.0f, 15.0f, 15.0f);
     cameraUp        = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    radius      = 80; //sqrt(12.0f);
+    radius      = 150; //sqrt(12.0f);
     pitch       = 0.35f;
     yaw         = 0.0f;
     moveSpeed   = 0.025f;
@@ -16,7 +16,7 @@ Camera::Camera() {
     fov         = glm::radians(45.0f);
     aspectRatio = 1200.0f / 800.0f;
     nearPlane   = 0.1f;
-    farPlane    = 100.0f;
+    farPlane    = 220.0f;
 
     cameraProjection = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
 }
