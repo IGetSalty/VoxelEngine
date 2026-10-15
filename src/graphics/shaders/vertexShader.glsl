@@ -9,7 +9,7 @@ out vec3 vertexColor;
 
 void main()
 {
-    vec3 worldPosition = aPos*aInstancePosition;
+    vec3 worldPosition = aPos+aInstancePosition;
     vertexColor = aColor;
     gl_Position = projection * view * vec4(worldPosition, 1.0);
 }

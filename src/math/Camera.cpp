@@ -2,11 +2,11 @@
 #include <cmath>
 
 Camera::Camera() {
-    cameraPos       = glm::vec3(4.0f, 4.0f, 4.0f);
-    cameraTarget    = glm::vec3(50.0f,50.0f, 50.0f);
+    cameraPos       = glm::vec3(10.0f, 5.0f, 10.0f);
+    cameraTarget    = glm::vec3(5.0f,5.0f, 5.0f);
     cameraUp        = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    radius      = 500; //sqrt(12.0f);
+    radius      = 50.0; //sqrt(12.0f);
     pitch       = 0.35f;
     yaw         = 0.0f;
     moveSpeed   = 0.025f;
@@ -14,9 +14,9 @@ Camera::Camera() {
     cameraView  = glm::lookAt(cameraPos, cameraTarget, cameraUp);
 
     fov         = glm::radians(45.0f);
-    aspectRatio = 1920.0f / 1080.0f;
+    aspectRatio = 1600.0f / 900.0f;
     nearPlane   = 0.1f;
-    farPlane    = 1000.0f;
+    farPlane    = 100.0f;
 
     cameraProjection = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
 }
