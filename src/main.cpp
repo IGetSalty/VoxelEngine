@@ -103,9 +103,9 @@ static const GLfloat colours[] = {
 
 void GenerateBlocks(std::vector<Block>& Blocks) {
 
-    int width = 250;
-    int height = 250;
-    int depth = 250;
+    int width = 100;
+    int height = 100;
+    int depth = 100;
     
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
@@ -135,7 +135,7 @@ int main() {
     Shader shader; 
 
     std::vector<Block> Blocks;
-    Blocks.reserve(250*250*250);
+    Blocks.reserve(100*100*100);
     GenerateBlocks(Blocks);
 
     //Creating model matrix for each block in Blocks
@@ -144,7 +144,14 @@ int main() {
                             glm::mat4(1.0f), 
                             block.position
                         );
-        std::cout << sizeof(block);
+        //std::cout << sizeof(block);
+    }
+
+    //Instanced Rendering: Upload block positions or model matrics to GPU Buffer. Use glDrawArraysInstanced() to render
+    //many copies of the same cube in a single draw call
+    std::vector<glm::vec3> positions;
+    for (const Block& block : Blocks) {
+        positions.push_back(block.position);
     }
     
     //Creating Shader Program
@@ -178,6 +185,15 @@ int main() {
     glBufferData(GL_ARRAY_BUFFER,sizeof(colours),colours,GL_STATIC_DRAW);
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(1);
+
+    //INSTANCE
+    VertexBuffer ibo;
+    ibo.bind();
+    glBufferData(GL_ARRAY_BUFFER,positions.size()*sizeof(glm::vec3), positions.data(),GL_STATIC_DRAW);
+    glVertexAttribPointer(2,3,GL_FLOAT,GL_FALSE,sizeof(glm::vec3),(void*)0);
+    glEnableVertexAttribArray(2);
+    glVertexAttribDivisor(2,1);
+    
 
     //Locating Camera Uniforms, telling GPU to use shaderProgram, and setting Camera Projection 
     //as it does not change
@@ -215,11 +231,12 @@ int main() {
         glBindVertexArray(vao.getRendererID());
 
         //Block Model Matrix Upload
-        for (Block& block : Blocks) { 
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(block.model));
-            glDrawArrays(GL_TRIANGLES, 0, 36); 
-        }
-
+        //for (Block& block : Blocks) { 
+        //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(block.model));
+        //    glDrawArrays(GL_TRIANGLES, 0, 36); 
+        //}
+        
+        glDrawArraysInstanced(GL_TRIANGLES,0,36,static_cast<GLsizei>(Blocks.size()));
 
         //Implements double buffering (by swapping front and back buffers)
         glfwSwapBuffers(gameWindow.getNativeWindow());
