@@ -103,9 +103,9 @@ static const GLfloat colours[] = {
 
 void GenerateBlocks(std::vector<Block>& Blocks) {
 
-    int width = 10;
-    int height = 10;
-    int depth = 10;
+    int width = 500;
+    int height = 500;
+    int depth = 500;
     
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
@@ -127,13 +127,28 @@ int main() {
         return -1;
     }
 
-    //Create Game Window/Camera/Shaders and Create Blocks/Models for Blocks and reserve space
-    Window gameWindow(1600,900,"Test Window"); //GameWindow
-    Camera buddy; 
-    Shader shader; 
+
+    // Create game window
+    Window gameWindow(1600, 900, "Test Window");
+
+    // Check which GPU OpenGL is using
+    const GLubyte* renderer = glGetString(GL_RENDERER);
+    const GLubyte* vendor = glGetString(GL_VENDOR);
+
+    std::cout << "OpenGL vendor: "
+          << (vendor ? reinterpret_cast<const char*>(vendor) : "Unknown")
+          << '\n';
+
+    std::cout << "OpenGL renderer: "
+          << (renderer ? reinterpret_cast<const char*>(renderer) : "Unknown")
+          << '\n';
+
+    Camera buddy;
+    Shader shader;
+
 
     std::vector<Block> Blocks;
-    Blocks.reserve(10*10*10);
+    Blocks.reserve(500*500*500);
     GenerateBlocks(Blocks);
 
     //Creating model matrix for each block in Blocks

@@ -15,5 +15,9 @@ cmake -B build
 echo "=== Building VoxelEngine ==="
 cmake --build build
 
-echo "=== Launching VoxelEngine ==="
+echo "=== Launching VoxelEngine on NVIDIA ==="
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
 exec ./build/VoxelEngine
+
