@@ -125,9 +125,9 @@ static const GLfloat colours[] = {
 
 void GenerateBlocks(std::vector<Block>& Blocks)
 {
-    int width   = 75;
-    int height  = 75;
-    int depth   = 75;
+    int width   = 350;
+    int height  = 350;
+    int depth   = 350;
 
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
@@ -176,7 +176,7 @@ int main()
 
 
     std::vector<Block> Blocks;
-    Blocks.reserve(75 * 75 * 75);
+    Blocks.reserve(350 * 350 * 350);
 
     GenerateBlocks(Blocks);
 
