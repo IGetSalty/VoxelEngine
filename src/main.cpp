@@ -21,6 +21,7 @@ using clock_type = std::chrono::steady_clock;
 
 
 // Temp Vertex Data to get shaders working
+/*
 static const GLfloat vertices[] = {
     -1.0f,-1.0f,-1.0f, // triangle 1 : begin
     -1.0f,-1.0f, 1.0f,
@@ -59,7 +60,28 @@ static const GLfloat vertices[] = {
     -1.0f, 1.0f, 1.0f,
     1.0f,-1.0f, 1.0f
 };
+*/
 
+
+static const GLfloat vertices[] = {
+    -0.5f, -0.5f, -0.5f, // 0
+     0.5f, -0.5f, -0.5f, // 1
+     0.5f,  0.5f, -0.5f, // 2
+    -0.5f,  0.5f, -0.5f, // 3
+    -0.5f, -0.5f,  0.5f, // 4
+     0.5f, -0.5f,  0.5f, // 5
+     0.5f,  0.5f,  0.5f, // 6
+    -0.5f,  0.5f,  0.5f  // 7
+};
+
+unsigned int indices[] = {
+    0, 1, 2, 2, 3, 0, // back
+    4, 6, 5, 6, 4, 7, // front (winding must be consistent)
+    0, 4, 5, 5, 1, 0,
+    3, 2, 6, 6, 7, 3,
+    0, 3, 7, 7, 4, 0,
+    1, 5, 6, 6, 2, 1
+};
 
 static const GLfloat colours[] = {
     0.90f, 0.10f, 0.10f, //  1 - Red
@@ -252,6 +274,17 @@ int main()
 
     glEnableVertexAttribArray(1);
 
+    // ELEMENT BUFFER
+    VertexBuffer ebo;
+    ebo.bind(GL_ELEMENT_ARRAY_BUFFER);
+
+    glBufferData(
+        GL_ELEMENT_ARRAY_BUFFER,
+        sizeof(indices),
+        indices,
+        GL_STATIC_DRAW
+    );
+
 
     // INSTANCE
     VertexBuffer ibo;
@@ -289,8 +322,8 @@ int main()
     );
     
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
-    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 
     vao.unbind();
 
@@ -372,7 +405,7 @@ int main()
         }
         */
 
-
+/*
         // Instanced rendering
         glDrawArraysInstanced(
             GL_TRIANGLES,
@@ -380,6 +413,16 @@ int main()
             36,
             static_cast<GLsizei>(Blocks.size())
         );
+*/
+
+        glDrawElementsInstanced(
+            GL_TRIANGLES,
+            static_cast<GLsizei>(sizeof(indices) / sizeof(indices[0])),
+            GL_UNSIGNED_INT,
+            nullptr,
+            static_cast<GLsizei>(Blocks.size())
+        );
+
 
 
         // Double buffering
