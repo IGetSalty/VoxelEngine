@@ -1,11 +1,8 @@
 #include "graphics/VertexBuffer.h"
 
-#include <glad/glad.h>
-
 VertexBuffer::VertexBuffer()
 {
     glGenBuffers(1, &m_RendererID);
-
 }
 
 VertexBuffer::~VertexBuffer()
@@ -13,16 +10,17 @@ VertexBuffer::~VertexBuffer()
     glDeleteBuffers(1, &m_RendererID);
 }
 
-void VertexBuffer::bind() const
+void VertexBuffer::bind(GLenum target) const
 {
-    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+    glBindBuffer(target, m_RendererID);
 }
 
-void VertexBuffer::unbind() const
+void VertexBuffer::unbind(GLenum target) const
 {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(target, 0);
 }
 
-unsigned int VertexBuffer::getRendererID() const {
+unsigned int VertexBuffer::getRendererID() const
+{
     return m_RendererID;
 }
