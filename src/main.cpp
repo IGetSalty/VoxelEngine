@@ -391,30 +391,6 @@ int main()
         glBindVertexArray(vao.getRendererID());
 
 
-        // Original non-instanced rendering approach:
-        /*
-        for (Block& block : Blocks) {
-            glUniformMatrix4fv(
-                modelLoc,
-                1,
-                GL_FALSE,
-                glm::value_ptr(block.model)
-            );
-
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-        */
-
-/*
-        // Instanced rendering
-        glDrawArraysInstanced(
-            GL_TRIANGLES,
-            0,
-            36,
-            static_cast<GLsizei>(Blocks.size())
-        );
-*/
-
         glDrawElementsInstanced(
             GL_TRIANGLES,
             static_cast<GLsizei>(sizeof(indices) / sizeof(indices[0])),
